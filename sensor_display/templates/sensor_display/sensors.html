@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <title>Датчики</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<h1>Показания датчиков в реальном времени <span class="test-label">Тестовое задание</span></h1>
+<div class="container">
+    {% for sensor in sensors %}
+        <div class="sensor">
+            <h2>Датчик: {{ sensor.name }}</h2>
+            <p><span class="owner-description">Владелец:</span> {{ sensor.owner }}</p>
+            <p><span class="owner-description">Описание:</span> {{ sensor.description }}</p>
+            <p><strong>Температура/Дата измерения:</strong></p>
+            <ul>
+                {% for measurement in sensor.measurement_set.all %}
+                    <li>Температура: {{ measurement.temperature }} - Дата измерения: {{ measurement.created_at }}</li>
+                {% endfor %}
+            </ul>
+            <div class="graph-column">
+                <img class="graph" src="{{ sensor.temperature_plot }}" alt="Temperature">
+            </div>
+        </div>
+    {% endfor %}
+</div>
+</body>
+</html>
